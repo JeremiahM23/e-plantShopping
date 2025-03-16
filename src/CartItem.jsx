@@ -16,6 +16,12 @@ const CartItem = ({ onContinueShopping }) => {
     });
     return totalCost.toFixed(2); // Return total amount with two decimal places
   };
+  
+  // Calculate the total number of items in the cart
+  const calculateTotalItems = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+  
 
   const handleContinueShopping = (e) => {
     e.preventDefault();
@@ -28,14 +34,14 @@ const CartItem = ({ onContinueShopping }) => {
 
 
   const handleIncrement = (item) => {
-    dispatch(updateQuantity({ name: item.name, quantity: item.quantity +1 }));
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
-        dispatch(updateQuantity({name: item.name, quantity: item.quantity -1 }));
+      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
     } else {
-        dispatch(removeItem(item.name));
+      dispatch(removeItem(item.name));
     }
   };
 
@@ -52,6 +58,7 @@ const CartItem = ({ onContinueShopping }) => {
   return (
     <div className="cart-container">
       <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
+      <h3 style={{ color: 'black' }}>Total Items in Cart: {calculateTotalItems()}</h3> {/* Total number of items */}
       <div>
         {cart.map(item => (
           <div className="cart-item" key={item.name}>
@@ -70,7 +77,9 @@ const CartItem = ({ onContinueShopping }) => {
           </div>
         ))}
       </div>
-      <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
+      <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'>
+      Total Items: {calculateTotalItems()}
+      </div>
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
         <br />
@@ -81,5 +90,6 @@ const CartItem = ({ onContinueShopping }) => {
 };
 
 export default CartItem;
+
 
 
